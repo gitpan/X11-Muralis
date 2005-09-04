@@ -1,0 +1,21 @@
+Revision history for X11-Muralis
+================================
+
+0.01 Sun 04 September 2005
+--------------------------
+
+  * (4 Sep 2005) tweaking documentation
+
+  * (12 Jul 2005) renamed the module X11:Muralis
+
+  * (12 Jul 2005) workaround Image::Info bug
+  	It seems that with some JPEG files, the Image::Info module
+  can't cope with them, even though xloadimage can display them
+  perfectly well.  So, if Image::Info crashes, this now simply goes
+  on to the display part.  This means that for those particular files,
+  no smart guessing of the appropriate options will happen, but the
+  user can still set their wanted options from the command line.
+
+  * (9 May 2005) fixed tiling options
+
+  * (9 May 2005) initial checkin
