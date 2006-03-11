@@ -1,6 +1,45 @@
 Revision history for X11-Muralis
 ================================
 
+0.02 Sat 11 March 2006
+----------------------
+
+  * (11 Mar 2006) unseen option
+  	* (11 Mar 2006) the 'unseen' option enables files to be displayed without
+  repeat, as it maintains a list of files that have not yet been seen,
+  in the ~/.muralis/unseen file.
+
+  * (11 Mar 2006) exclude option
+  	* (11 Mar 2006) added 'exclude' option, for excluding matches
+  	* (11 Mar 2006) changed 'image_match" to 'is_image' because it was confusing.
+
+  * (11 Mar 2006) match options
+  	Replaced the 'dir_match' option with 'match' which will match
+  anything; there's now a different way of gettting the list of files.
+  Also if you give a filename it will display the first file matching
+  that filename string.
+  	Added the 'nth' option, which will display the nth matching image.
+
+  * (11 Mar 2006) new list options
+  	* (11 Mar 2006) listformat allows the default directories + files listing,
+  or if 'fullname' will give just a list of the full names of the image
+  files.
+  	* (11 Mar 2006) outfile gives the name of an output file for the image listing.
+  If none is given, will print the list to STDOUT as usual.
+
+  * (11 Mar 2006) tweaking arguments
+  	Moved stuff around so that only global things are set in the "new"
+  method, and everything else is properly passed around.
+  	Also enabled the muralis script to override the config_dir
+  and the regular expression used to decide what is an image file.
+
+  * (11 Mar 2006) removed dependency on ls
+  	Used opendir/readdir/closedir instead, keeping this more perl.
+
+  * (11 Mar 2006) improved documentation
+  	I'd forgotten how woeful it was.  Now all the options are
+  actually described.
+
 0.01 Sun 04 September 2005
 --------------------------
 

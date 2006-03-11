@@ -9,6 +9,7 @@ my $builder = Module::Build->new(
     dist_version_from   => 'lib/X11/Muralis.pm',
 	requires            => {
 	     'Image::Info' => 0,
+	     'File::Basename' => 0,
 	'Getopt::Long' => 2.34,
 	'Pod::Usage' => 0,
 	'Getopt::ArgvFile' => 1.09,
