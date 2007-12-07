@@ -1,6 +1,24 @@
 Revision history for X11-Muralis
 ================================
 
+0.03 Tue 28 August 2007
+-----------------------
+
+  * (28 Aug 2007) feh
+  	Re-added in the options for feh.
+
+  * (25 Aug 2007) hsetroot not feh
+  	Removed the custom stuff for feh and put in hsetroot stuff instead.
+  I didn't like feh, it didn't scale properly.
+
+  * (21 Aug 2007) enable use of feh
+  	Because xloadimage doesn't work well with XRender, I added some
+  code to enable feh as an alternative displayer.
+
+  * (5 Apr 2007) no todo
+  	Removed the TODO file since I am using a different system
+  for TODO stuff.
+
 0.02 Sat 11 March 2006
 ----------------------
 

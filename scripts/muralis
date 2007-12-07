@@ -10,11 +10,11 @@ muralis - display wallpaper on your desktop.
 
 =head1 VERSION
 
-This describes version B<0.02> of muralis.
+This describes version B<0.03> of muralis.
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -148,6 +148,7 @@ Rotate the image by 90, 180 or 270 degrees.
 =item --smooth
 
 Smooth the image (useful if the image has been zoomed).
+Only works if using xloadimage as the displayer.
 
 =item --tile
 
@@ -248,6 +249,7 @@ sub init_data ($) {
 
     $data_ref->{manpage} = 0;
     $data_ref->{verbose} = 0;
+    $data_ref->{imgcmd} = 'xloadimage';
 } # init_data
 
 sub process_args ($) {
@@ -272,6 +274,7 @@ sub process_args ($) {
 	       'tile!',
 	       'fullscreen!',
 	       'smooth!',
+	       'seamless!',
 	       'zoom=n',
 	       'rotate=n',
 	       'nth=n',
@@ -282,6 +285,7 @@ sub process_args ($) {
 	       'random',
 	       'unseen!',
 	       'repeat_last',
+	       'imgcmd=s',
 	      ) or pod2usage(2);
 
     if ($data_ref->{'manpage'})

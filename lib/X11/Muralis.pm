@@ -9,11 +9,11 @@ X11::Muralis - Perl module to display wallpaper on your desktop.
 
 =head1 VERSION
 
-This describes version B<0.02> of X11::Muralis.
+This describes version B<0.03> of X11::Muralis.
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -69,6 +69,7 @@ sub new {
     my %parameters = (
 	config_dir => "$ENV{HOME}/.muralis",
 	is_image => qr/.(gif|jpeg|jpg|tiff|tif|png|pbm|xwd|pcx|gem|xpm|xbm)/i,
+	imgcmd => 'xloadimage',
 	@_
     );
     my $self = bless ({%parameters}, ref ($class) || $class);
@@ -241,7 +242,23 @@ sub display_image {
     }
 
     my ($fullname, $options) = $self->get_display_options($filename, %args);
-    my $command = "xloadimage -onroot $options $fullname";
+    my $command;
+    if ($self->{imgcmd} eq 'xloadimage')
+    {
+	$command = "xloadimage -onroot $options $fullname";
+    }
+    elsif ($self->{imgcmd} eq 'feh')
+    {
+	$command = "feh $options $fullname";
+    }
+    elsif ($self->{imgcmd} eq 'hsetroot')
+    {
+	$command = "hsetroot $options $fullname";
+    }
+    elsif ($self->{imgcmd} eq 'xsri')
+    {
+	$command = "xsri $options $fullname";
+    }
     print STDERR $command, "\n" if $args{verbose};
     system($command);
     $self->save_last_displayed($fullname, %args);
@@ -566,6 +583,7 @@ sub get_display_options ($$;%) {
 	verbose=>0,
 	fullscreen=>undef,
 	smooth=>undef,
+	seamless=>undef,
 	center=>undef,
 	tile=>0,
 	colors=>undef,
@@ -656,13 +674,39 @@ sub get_display_options ($$;%) {
 	}
     }
 
-    $options .= " -tile" if $args{tile};
-    $options .= " -fullscreen -border black" if $args{fullscreen};
-    $options .= " -center" if $args{center};
-    $options .= " -smooth" if $args{smooth};
-    $options .= " -colors " . $args{colors} if $args{colors};
-    $options .= " -rotate " . $args{rotate} if $args{rotate};
-    $options .= " -zoom " . $args{zoom} if $args{zoom};
+    if ($self->{imgcmd} eq 'xloadimage')
+    {
+	$options .= " -tile" if $args{tile};
+	$options .= " -fullscreen -border black" if $args{fullscreen};
+	$options .= " -center" if $args{center};
+	$options .= " -smooth" if $args{smooth};
+	$options .= " -colors " . $args{colors} if $args{colors};
+	$options .= " -rotate " . $args{rotate} if $args{rotate};
+	$options .= " -zoom " . $args{zoom} if $args{zoom};
+    }
+    elsif ($self->{imgcmd} eq 'feh')
+    {
+	$options = " --bg-tile" if $args{tile};
+	$options = " --bg-scale" if $args{fullscreen};
+	$options = " --bg-center" if $args{center};
+	$options = " --bg-tile" if (!$options);
+    }
+    elsif ($self->{imgcmd} eq 'hsetroot')
+    {
+	$options = " -tile" if $args{tile};
+	$options = " -full" if $args{fullscreen};
+	$options = " -center" if $args{center};
+	$options = " -tile" if (!$options);
+    }
+    elsif ($self->{imgcmd} eq 'xsri')
+    {
+	$options = " --tile" if $args{tile};
+	$options = " --color black --scale-width=100 --scale-height=100 --keep-aspect --center-x --center-y --emblem" if $args{fullscreen};
+	$options = " --color black --scale-width=$args{zoom} --scale-height=$args{zoom} --keep-aspect --emblem" if $args{zoom};
+	$options = " --tile" if (!$options);
+
+	$options = " --color black --center-x --center-y --emblem" if $args{center};
+    }
     return ($fullname, $options);
 } # get_display_options
 

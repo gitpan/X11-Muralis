@@ -17,14 +17,9 @@ my $builder = Module::Build->new(
     build_requires => {
         'Test::More' => 0,
     },
+    script_files => [qw(scripts/muralis)],
+    create_makefile_pl => 'passthrough',
 #    add_to_cleanup      => [ 'X11-Muralis-*' ],
-script_files => [qw(scripts/muralis)],
-
 );
 
 $builder->create_build_script();
-
-# create the Makefile.PL
-use Module::Build::Compat;
-print "creating Makefile.PL\n";
-Module::Build::Compat->create_makefile_pl('passthrough', $builder);
